@@ -4,6 +4,8 @@ import { configValidationSchema } from 'config/schema.config'
 import { DatabaseModule } from './database/database.module'
 import { LoggerMiddleware } from 'middleware/logger.middleware'
 import path from 'path'
+import { User } from 'entities/user.entity'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -13,6 +15,7 @@ import path from 'path'
       validationSchema: configValidationSchema,
     }),
     DatabaseModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
