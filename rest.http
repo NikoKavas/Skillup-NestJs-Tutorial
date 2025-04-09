@@ -16,7 +16,7 @@ POST http://localhost:8080/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  	"email": "john@gmail.com",
+  	"email": "johnny@gmail.com",
   	"password": "John123!"
 }
 
@@ -36,8 +36,7 @@ PATCH http://localhost:8080/users/c706daf9-c2bb-4242-8062-9544d0cf522a HTTP/1.1
 Content-Type: application/json
 
 {
-	"first_name": "Johnny",
-	"last_name": "Goode"
+	"role_id": "cec4e05a-a93e-4ce9-903e-4d880f071b28"
 }
 
 ### GET /permissions
@@ -60,9 +59,9 @@ POST http://localhost:8080/roles HTTP/1.1
 Content-Type: application/json
 
 {
-	"name": "Admin",
+	"name": "Viewer",
 	"permissions": [
-		"65205de4-203d-4d0e-a392-bedd6449f58c"
+		"cae93961-e3dc-4111-b870-01f52e0de0dd"
 	]
 }
 
