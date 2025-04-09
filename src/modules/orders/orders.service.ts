@@ -1,13 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common'
-import { Response } from 'express'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Order } from 'entities/order.entity'
+import { Response } from 'express'
+import { Parser } from 'json2csv'
 import { AbstractService } from 'modules/common/abstract.service'
 import { Repository } from 'typeorm'
-
-import Logging from 'library/Logging'
-import { Product } from 'entities/product.entity'
-import { Order } from 'entities/order.entity'
-import { Parser } from 'json2csv'
 
 @Injectable()
 export class OrdersService extends AbstractService {
@@ -52,8 +49,8 @@ export class OrdersService extends AbstractService {
 
   async chart(): Promise<{ date: string; sum: string }[]> {
     const apiData = await this.ordersRepository.query(`
-        SELECT to_date(cast(created_at as text), '%Y-%m-%d') as date, sum(oi.price * oi.quantity) as sum FROM "orders" o
-        JOIN "order_items" oi ON o.id = oi.order_id
+        SELECT to_date(cast(o."createdAt" as text), '%Y-%m-%d') as date, sum(oi.price * oi.quantity) as sum FROM "order" o
+        JOIN "order_item" oi ON o.id = oi.order_id
         GROUP BY date;
         `)
     const chartData: { date: string; sum: string }[] = []

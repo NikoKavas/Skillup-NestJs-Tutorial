@@ -4,8 +4,9 @@ import { Permission } from 'entities/permission.entity'
 import { Role } from 'entities/role.entity'
 import Logging from 'library/Logging'
 import { AbstractService } from 'modules/common/abstract.service'
-import { CreateUpdateRoleDto } from './dto/create-update-role.dto'
 import { Repository } from 'typeorm'
+
+import { CreateUpdateRoleDto } from './dto/create-update-role.dto'
 
 @Injectable()
 export class RolesService extends AbstractService {

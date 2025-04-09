@@ -11,15 +11,15 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { Response } from 'express'
-import { AuthService } from './auth.service'
 import { Public } from 'decorators/public.decorator'
 import { User } from 'entities/user.entity'
-import { RegisterUserDto } from './dto/register-user.dto'
-import { RequestWithUser } from 'interfaces/auth.interface'
-import { LocalAuthGuard } from './guards/local-auth.guard'
+import { Response } from 'express'
 import { Request } from 'express'
-import { JwtAuthGuard } from './guards/jwt.guard'
+import { RequestWithUser } from 'interfaces/auth.interface'
+
+import { AuthService } from './auth.service'
+import { RegisterUserDto } from './dto/register-user.dto'
+import { LocalAuthGuard } from './guards/local-auth.guard'
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
