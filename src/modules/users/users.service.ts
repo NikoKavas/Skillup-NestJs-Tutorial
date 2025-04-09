@@ -32,9 +32,11 @@ export class UsersService extends AbstractService {
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = (await this.findById(id)) as User
     const { email, password, confirm_password, role_id, ...data } = updateUserDto
+
     if (user.email !== email && email) {
       user.email = email
     }
+
     if (password && confirm_password) {
       if (password !== confirm_password) {
         throw new BadRequestException('Password and confirm password do not match')
@@ -43,21 +45,24 @@ export class UsersService extends AbstractService {
         throw new BadRequestException('New password cannot be the same as the old password')
       }
       user.password = await hash(password)
-      if (role_id) {
-        user.role = { ...user.role, id: role_id }
+    }
+
+    if (role_id) {
+      user.role = { ...user.role, id: role_id }
+    }
+
+    try {
+      Object.entries(data).map(([key, value]) => {
+        user[key] = value
+      })
+
+      return await this.usersRepository.save(user)
+    } catch (error) {
+      Logging.error(error)
+      if (error.code === PostgresErrorCode.UniqueViolation) {
+        throw new BadRequestException('User already exists with this email')
       }
-      try {
-        Object.entries(data).map((entry) => {
-          user[entry[0]] = entry[1]
-        })
-        return this.usersRepository.save(user)
-      } catch (error) {
-        Logging.error(error)
-        if (error.code === PostgresErrorCode.UniqueViolation) {
-          throw new BadRequestException('User already exists with this email')
-        }
-        throw new InternalServerErrorException('Something went wrong while updating the user')
-      }
+      throw new InternalServerErrorException('Something went wrong while updating the user')
     }
   }
 

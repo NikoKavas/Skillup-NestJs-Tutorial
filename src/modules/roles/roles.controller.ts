@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import { CreateUserDto } from 'modules/users/dto/create-user.dto'
 import { RolesService } from './roles.service'
@@ -33,13 +45,16 @@ export class RolesController {
     @Body() createRoleDto: CreateUpdateRoleDto,
     @Body('permissions') permissionsIds: string[],
   ): Promise<Role> {
+    if (permissionsIds.length === 0) {
+      throw new BadRequestException('There should be at least one permission selected')
+    }
     return this.rolesService.create(
       createRoleDto,
       permissionsIds.map((id) => ({ id })),
     )
   }
 
-  @Patch()
+  @Patch(':id')
   @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,

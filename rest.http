@@ -20,6 +20,8 @@ Content-Type: application/json
   	"password": "John123!"
 }
 
+
+
 ### GET /auth
 GET http://localhost:8080/auth HTTP/1.1
 
@@ -28,6 +30,15 @@ POST http://localhost:8080/auth/signout HTTP/1.1
 
 ### GET /users
 GET http://localhost:8080/users HTTP/1.1
+
+### PATCH /users/:id
+PATCH http://localhost:8080/users/c706daf9-c2bb-4242-8062-9544d0cf522a HTTP/1.1
+Content-Type: application/json
+
+{
+	"first_name": "Johnny",
+	"last_name": "Goode"
+}
 
 ### GET /permissions
 GET http://localhost:8080/permissions HTTP/1.1
@@ -51,6 +62,22 @@ Content-Type: application/json
 {
 	"name": "Admin",
 	"permissions": [
-
+		"65205de4-203d-4d0e-a392-bedd6449f58c"
 	]
 }
+
+### PATCH /roles/:id
+PATCH http://localhost:8080/roles/f81a390b-0597-4509-8743-b47dc870fea1 HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "Admin",
+	"permissions": [
+		"65205de4-203d-4d0e-a392-bedd6449f58c",
+		"f91af581-7311-44fa-a5a5-455820d692a1"
+	]
+}
+
+### DELETE /roles/{id}
+DELETE http://localhost:8080/roles/21c77c09-c191-4d60-8104-66656afa0994 HTTP/1.1
+
