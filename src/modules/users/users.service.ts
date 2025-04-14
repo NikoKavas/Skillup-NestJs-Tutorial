@@ -22,7 +22,10 @@ export class UsersService extends AbstractService {
       throw new BadRequestException('User already exists with this email')
     }
     try {
-      const newUser = this.usersRepository.create({ ...createUserDto, role: { id: createUserDto.role_id } })
+      const newUser = this.usersRepository.create({
+        ...createUserDto,
+        role: createUserDto.role_id ? { id: createUserDto.role_id } : undefined,
+      })
       return this.usersRepository.save(newUser)
     } catch (error) {
       Logging.error(error)

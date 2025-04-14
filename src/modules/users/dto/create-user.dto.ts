@@ -16,13 +16,13 @@ export class CreateUserDto {
   @IsEmail()
   email: string
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  role_id: string
+  @ApiProperty({ required: false })
+  @IsOptional()
+  role_id?: string
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, {
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/, {
     message:
       'Password must contain at least 6 characters, one uppercase letter, one lowercase letter, one number and one special character',
   })

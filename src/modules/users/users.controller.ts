@@ -48,7 +48,7 @@ export class UsersController {
     return this.usersService.create(createUserDto)
   }
 
-  @Post('upload/id')
+  @Post('upload/:id')
   @UseInterceptors(FileInterceptor('avatar', saveImageToStorage))
   @HttpCode(HttpStatus.CREATED)
   async upload(@UploadedFile() file: Express.Multer.File, @Param('id') id: string): Promise<User> {
@@ -59,7 +59,7 @@ export class UsersController {
     }
     const imagesFolderPath = join(process.cwd(), 'files')
     const fullImagePath = join(imagesFolderPath + '/' + filename)
-    if (!(await isFileExtensionSafe(fullImagePath))) {
+    if (await isFileExtensionSafe(fullImagePath)) {
       return this.usersService.updateUserImageId(id, filename)
     }
     removeFile(fullImagePath)
